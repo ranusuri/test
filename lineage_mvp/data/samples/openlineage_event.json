@@ -1,0 +1,24 @@
+{
+  "eventType": "COMPLETE",
+  "eventTime": "2026-04-15T15:00:00Z",
+  "job": {
+    "namespace": "wf.custom.batch",
+    "name": "customer_bridge_load"
+  },
+  "run": {
+    "runId": "run-2026-04-15-001"
+  },
+  "inputs": [
+    {
+      "namespace": "teradata.prod.staging",
+      "name": "customer_stage_export"
+    }
+  ],
+  "outputs": [
+    {
+      "namespace": "bigquery.prod.customer360",
+      "name": "customer_raw_bridge"
+    }
+  ],
+  "producer": "custom-batch"
+}

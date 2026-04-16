@@ -1,0 +1,30 @@
+{
+  "datasets": [
+    {
+      "native_id": "bq-001",
+      "fq_name": "bigquery.prod.customer360.customer_raw_bridge",
+      "environment": "prod",
+      "system": "bigquery",
+      "container": "customer360",
+      "object": "customer_raw_bridge",
+      "domain": "customer360",
+      "owner_team": "gcp-data-team"
+    },
+    {
+      "native_id": "bq-002",
+      "fq_name": "bigquery.prod.customer360.customer_enriched",
+      "environment": "prod",
+      "system": "bigquery",
+      "container": "customer360",
+      "object": "customer_enriched",
+      "domain": "customer360",
+      "owner_team": "gcp-data-team"
+    }
+  ],
+  "relationships": [
+    {
+      "from": {"environment": "prod", "system": "bigquery", "container": "customer360", "object": "customer_raw_bridge"},
+      "to": {"environment": "prod", "system": "bigquery", "container": "customer360", "object": "customer_enriched"}
+    }
+  ]
+}

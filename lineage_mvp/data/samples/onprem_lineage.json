@@ -1,0 +1,30 @@
+{
+  "datasets": [
+    {
+      "native_id": "td-001",
+      "fq_name": "teradata.prod.edw.customer_master",
+      "environment": "prod",
+      "system": "teradata",
+      "container": "edw",
+      "object": "customer_master",
+      "domain": "customer360",
+      "owner_team": "edw-team"
+    },
+    {
+      "native_id": "td-002",
+      "fq_name": "teradata.prod.staging.customer_stage_export",
+      "environment": "prod",
+      "system": "teradata",
+      "container": "staging",
+      "object": "customer_stage_export",
+      "domain": "customer360",
+      "owner_team": "edw-team"
+    }
+  ],
+  "relationships": [
+    {
+      "from": {"environment": "prod", "system": "teradata", "container": "edw", "object": "customer_master"},
+      "to": {"environment": "prod", "system": "teradata", "container": "staging", "object": "customer_stage_export"}
+    }
+  ]
+}

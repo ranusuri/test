@@ -1,0 +1,30 @@
+{
+  "datasets": [
+    {
+      "native_id": "az-001",
+      "fq_name": "synapse.prod.customer360.customer_enriched_stage",
+      "environment": "prod",
+      "system": "synapse",
+      "container": "customer360",
+      "object": "customer_enriched_stage",
+      "domain": "customer360",
+      "owner_team": "azure-data-team"
+    },
+    {
+      "native_id": "az-002",
+      "fq_name": "synapse.prod.customer360.customer_publish_curated",
+      "environment": "prod",
+      "system": "synapse",
+      "container": "customer360",
+      "object": "customer_publish_curated",
+      "domain": "customer360",
+      "owner_team": "azure-data-team"
+    }
+  ],
+  "relationships": [
+    {
+      "from": {"environment": "prod", "system": "synapse", "container": "customer360", "object": "customer_enriched_stage"},
+      "to": {"environment": "prod", "system": "synapse", "container": "customer360", "object": "customer_publish_curated"}
+    }
+  ]
+}
