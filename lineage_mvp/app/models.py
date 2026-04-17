@@ -93,6 +93,16 @@ class OpenLineageEvent(BaseModel):
     producer: Optional[str] = 'custom-batch'
 
 
+
+
+class FileIngestRequest(BaseModel):
+    path: str
+
+
+class FileIngestResponse(BaseModel):
+    status: str = 'accepted'
+    details: dict
+
 class PublishRequest(BaseModel):
     asset_id: str
     target: Literal['purview_export'] = 'purview_export'

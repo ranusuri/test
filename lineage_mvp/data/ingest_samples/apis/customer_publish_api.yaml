@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+  title: Customer Publish API
+  version: 1.0.0
+paths:
+  /customers/publish:
+    post:
+      operationId: publishCustomers
+      tags: [customer]
+      summary: Publish curated customers
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: success

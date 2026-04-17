@@ -37,3 +37,10 @@ if st.button('Run impact analysis'):
 if st.button('Publish asset to Purview export'):
     resp = requests.post(f'{API_BASE}/api/v1/publish', json={'asset_id': asset_id, 'target': 'purview_export'}, timeout=20)
     st.json(resp.json())
+
+st.subheader('File ingestion')
+ingest_path = st.text_input('File path to ingest', 'data/ingest_samples/sql/customer_publish.sql')
+ingest_type = st.selectbox('Ingest type', ['sql', 'logs', 'api-spec'])
+if st.button('Ingest file'):
+    resp = requests.post(f'{API_BASE}/api/v1/ingest/{ingest_type}', json={'path': ingest_path}, timeout=20)
+    st.json(resp.json())

@@ -2,9 +2,12 @@ from __future__ import annotations
 
 from fastapi import FastAPI, HTTPException, Query
 
+from app.adapters.api_spec_adapter import ingest_api_spec
+from app.adapters.log_file_adapter import ingest_log_file
 from app.adapters.openlineage_adapter import ingest_event
+from app.adapters.sql_file_adapter import ingest_sql_file
 from app.database import edge_key, get_evidence_by_edge, get_node, init_db, search_nodes
-from app.models import OpenLineageEvent, PublishRequest, SearchResponse
+from app.models import FileIngestRequest, OpenLineageEvent, PublishRequest, SearchResponse
 from app.services.graph_service import impact_analysis, lineage
 from app.services.publish_service import publish_asset_to_purview_export
 
@@ -47,6 +50,21 @@ def get_impact(assetId: str, depth: int = 6):
 @app.post('/api/v1/lineage/events')
 def register_lineage_event(event: OpenLineageEvent):
     return ingest_event(event)
+
+
+@app.post('/api/v1/ingest/sql')
+def ingest_sql(request: FileIngestRequest):
+    return {'status': 'accepted', 'details': ingest_sql_file(request.path)}
+
+
+@app.post('/api/v1/ingest/logs')
+def ingest_logs(request: FileIngestRequest):
+    return {'status': 'accepted', 'details': ingest_log_file(request.path)}
+
+
+@app.post('/api/v1/ingest/api-spec')
+def ingest_api_spec_file(request: FileIngestRequest):
+    return {'status': 'accepted', 'details': ingest_api_spec(request.path)}
 
 
 @app.get('/api/v1/evidence')

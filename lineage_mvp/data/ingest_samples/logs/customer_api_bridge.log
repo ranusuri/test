@@ -1,0 +1,4 @@
+JOB: customer_api_bridge
+RUN_ID: api-run-2026-04-17-001
+Reading table: customer_publish_ready
+Writing dataset: customer_api_payload

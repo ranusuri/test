@@ -3,6 +3,9 @@ BASE_CONFIDENCE = {
     'purview': 0.95,
     'onprem_sql': 0.85,
     'openlineage': 0.90,
+    'sql_parser': 0.80,
+    'log_parser': 0.70,
+    'api_spec': 0.78,
 }
 
 

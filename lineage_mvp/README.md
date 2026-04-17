@@ -7,6 +7,9 @@ A Python starter codebase for an enterprise data lineage MVP aligned to the reco
 - Azure / Purview-integrated sample lineage
 - On-prem warehouse sample lineage
 - Custom batch/script flow via OpenLineage-style event
+- SQL file ingestion to derived lineage events
+- Runtime log ingestion to derived lineage events
+- OpenAPI spec ingestion to derived lineage events
 
 ## Covered MVP capabilities
 - Canonical dataset / process / run model
@@ -22,7 +25,8 @@ A Python starter codebase for an enterprise data lineage MVP aligned to the reco
 - `app/models.py` - canonical models and request/response schemas
 - `app/database.py` - SQLite persistence and seed helpers
 - `app/services/` - ID generation, scoring, graph traversal, publishing
-- `app/adapters/` - sample source adapters and OpenLineage ingestion
+- `app/adapters/` - sample source adapters and derived-file ingestion adapters
+- `app/parsers/` - SQL, log, and OpenAPI parsers
 - `app/api.py` - FastAPI endpoints
 - `app/ui/streamlit_app.py` - lightweight UI
 - `data/samples/` - sample source payloads
@@ -50,6 +54,7 @@ API docs:
 2. View cross-platform path from on-prem warehouse to BigQuery through a custom batch flow.
 3. Ingest an OpenLineage-style event and see the resulting edge plus evidence.
 4. Run downstream impact analysis for an on-prem dataset feeding cloud data products.
+5. Automatically ingest SQL files, logs, and OpenAPI specs and convert them into lineage events.
 
 ## Notes
 This is an MVP starter, so it uses:
@@ -61,3 +66,20 @@ Production upgrades would typically replace:
 - SQLite -> graph DB + operational RDBMS
 - sample adapters -> actual Purview / Dataplex / warehouse connectors
 - JSON export -> real publish-back API integration
+
+## Additional file-ingestion APIs
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/ingest/sql \
+  -H 'Content-Type: application/json' \
+  -d '{"path": "data/ingest_samples/sql/customer_publish.sql"}'
+
+curl -X POST http://127.0.0.1:8000/api/v1/ingest/logs \
+  -H 'Content-Type: application/json' \
+  -d '{"path": "data/ingest_samples/logs/customer_api_bridge.log"}'
+
+curl -X POST http://127.0.0.1:8000/api/v1/ingest/api-spec \
+  -H 'Content-Type: application/json' \
+  -d '{"path": "data/ingest_samples/apis/customer_publish_api.yaml"}'
+```
+
+These endpoints parse files, convert them into normalized lineage relationships, and persist the resulting nodes, edges, and evidence.
