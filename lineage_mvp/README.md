@@ -26,7 +26,7 @@ A Python starter codebase for an enterprise data lineage MVP aligned to the reco
 - `app/database.py` - SQLite persistence and seed helpers
 - `app/services/` - ID generation, scoring, graph traversal, publishing
 - `app/adapters/` - sample source adapters and derived-file ingestion adapters
-- `app/parsers/` - SQL, log, and OpenAPI parsers
+- `app/parsers/` - SQLGlot-backed SQL, log, and OpenAPI parsers
 - `app/api.py` - FastAPI endpoints
 - `app/ui/streamlit_app.py` - lightweight UI
 - `data/samples/` - sample source payloads
@@ -55,6 +55,7 @@ API docs:
 3. Ingest an OpenLineage-style event and see the resulting edge plus evidence.
 4. Run downstream impact analysis for an on-prem dataset feeding cloud data products.
 5. Automatically ingest SQL files, logs, and OpenAPI specs and convert them into lineage events.
+6. Bulk ingest a whole directory of SQL files, logs, or API specs in one call.
 
 ## Notes
 This is an MVP starter, so it uses:
@@ -83,3 +84,20 @@ curl -X POST http://127.0.0.1:8000/api/v1/ingest/api-spec \
 ```
 
 These endpoints parse files, convert them into normalized lineage relationships, and persist the resulting nodes, edges, and evidence.
+
+## Bulk-ingestion APIs
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/ingest/sql/bulk \
+  -H "Content-Type: application/json" \
+  -d "{\"directory\": "data/ingest_samples/sql"}"
+
+curl -X POST http://127.0.0.1:8000/api/v1/ingest/logs/bulk \
+  -H "Content-Type: application/json" \
+  -d "{\"directory\": "data/ingest_samples/logs"}"
+
+curl -X POST http://127.0.0.1:8000/api/v1/ingest/api-spec/bulk \
+  -H "Content-Type: application/json" \
+  -d "{\"directory\": "data/ingest_samples/apis"}"
+```
+
+The SQL ingestion path now uses SQLGlot so lineage extraction is more reliable for INSERT/CREATE-AS patterns and field mapping inference than the earlier regex-only implementation.

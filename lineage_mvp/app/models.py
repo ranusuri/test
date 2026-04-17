@@ -103,6 +103,10 @@ class FileIngestResponse(BaseModel):
     status: str = 'accepted'
     details: dict
 
+
+class DirectoryIngestRequest(BaseModel):
+    directory: str
+
 class PublishRequest(BaseModel):
     asset_id: str
     target: Literal['purview_export'] = 'purview_export'

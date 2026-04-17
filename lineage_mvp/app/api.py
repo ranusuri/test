@@ -7,7 +7,8 @@ from app.adapters.log_file_adapter import ingest_log_file
 from app.adapters.openlineage_adapter import ingest_event
 from app.adapters.sql_file_adapter import ingest_sql_file
 from app.database import edge_key, get_evidence_by_edge, get_node, init_db, search_nodes
-from app.models import FileIngestRequest, OpenLineageEvent, PublishRequest, SearchResponse
+from app.models import DirectoryIngestRequest, FileIngestRequest, OpenLineageEvent, PublishRequest, SearchResponse
+from app.services.bulk_ingestion import bulk_ingest_api_specs, bulk_ingest_logs, bulk_ingest_sql
 from app.services.graph_service import impact_analysis, lineage
 from app.services.publish_service import publish_asset_to_purview_export
 
@@ -81,3 +82,18 @@ def publish_asset(request: PublishRequest):
         return publish_asset_to_purview_export(request.asset_id)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@app.post('/api/v1/ingest/sql/bulk')
+def ingest_sql_bulk(request: DirectoryIngestRequest):
+    return {'status': 'accepted', 'details': bulk_ingest_sql(request.directory)}
+
+
+@app.post('/api/v1/ingest/logs/bulk')
+def ingest_logs_bulk(request: DirectoryIngestRequest):
+    return {'status': 'accepted', 'details': bulk_ingest_logs(request.directory)}
+
+
+@app.post('/api/v1/ingest/api-spec/bulk')
+def ingest_api_spec_bulk(request: DirectoryIngestRequest):
+    return {'status': 'accepted', 'details': bulk_ingest_api_specs(request.directory)}

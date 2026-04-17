@@ -7,3 +7,5 @@ pandas==2.2.3
 python-dotenv==1.1.0
 
 PyYAML==6.0.2
+
+sqlglot==25.34.1
